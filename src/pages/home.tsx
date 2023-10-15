@@ -65,7 +65,7 @@ const Home = () => {
             {data?.length ? (
               data.filter(Boolean)?.map((el: any) => (
                 <div
-                  className='h-auto p-4 py-7 bg-green-300 rounded-3xl cursor-pointer '
+                  className='h-auto p-4 py-7 bg-green-300 rounded-3xl cursor-pointer ring-green-100  ring-opacity-40 ring-4 '
                   onClick={() => handleClick(el)}
                   key={el?.id}
                 >

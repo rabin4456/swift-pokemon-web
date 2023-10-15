@@ -120,7 +120,7 @@ export default function Modal({
                           }
                         >
                           {tabItems?.map((el) => (
-                            <Tab className={"border-0 focus:ring-0"} key={el.value}>
+                            <Tab className={"border-0 focus:ring-0 focus:outline-none"} key={el.value}>
                               {({ selected }) => (
                                 <div
                                   className={clsx(

@@ -17,7 +17,7 @@ const Tabs = ({
         {data?.map((el) => (
           <Tab
             onClick={() => setSelectedTab(el.value)}
-            className={"border-0 focus:ring-0  focus:ring-transparent"}
+            className={"border-0 focus:ring-0  focus:ring-transparent focus:outline-none"}
             key={el.value}
           >
             {({ selected }) => (
