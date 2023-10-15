@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ProductReducer from "./features/products/productsSlice";
+import TeamReducer from "./features/teams/teamSlice";
 
 export const store = configureStore({
-  reducer: { ProductReducer },
+  reducer: { TeamReducer },
 });

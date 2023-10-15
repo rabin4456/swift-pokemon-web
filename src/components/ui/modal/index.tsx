@@ -1,8 +1,16 @@
 import { Dialog, Tab, Transition } from "@headlessui/react";
-import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import { ArrowLeftIcon, PlusCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import * as React from "react";
 import { stringToTitleCase } from "../../../utils";
+import { useDispatch } from "react-redux";
+import { ADD_ITEM_TO_CART } from "../../../features/teams/teamSlice";
+
+const tabItems = [
+  { label: "About", value: "1" },
+  { label: "Base Stat", value: "2" },
+  { label: "Evolution", value: "4" },
+];
 export default function Modal({
   show = false,
   className = "",
@@ -12,20 +20,20 @@ export default function Modal({
 }: {
   show: boolean;
   className?: string;
-  data?: any;
+  data: any;
   onModalClose: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
-  const tabItems = [
-    { label: "About", value: "1" },
-    { label: "Base Stat", value: "2" },
-    { label: "Evolution", value: "4" },
-  ];
+  const dispatch = useDispatch();
+
+  const onAddToTeam = () => {
+    dispatch(ADD_ITEM_TO_CART(data));
+  };
   return (
     <Transition.Root show={show} as={React.Fragment}>
       <Dialog
         as='div'
-        className='fixed inset-0  z-[999999999] overflow-y-auto '
+        className='fixed inset-0  z-[99] overflow-y-auto '
         onClose={() => {
           onModalClose();
         }}
@@ -73,6 +81,12 @@ export default function Modal({
                         onClick={onModalClose}
                       />
                     </div>
+                    <div className='absolute top-4 right-5'>
+                      <PlusCircleIcon
+                        className='h-9 w-9 cursor-pointer text-white'
+                        onClick={onAddToTeam}
+                      />
+                    </div>
                     <div className='flex justify-center items-center'>
                       <div>
                         <div className=' text-2xl font-extrabold text-white pb-2'>
@@ -80,7 +94,10 @@ export default function Modal({
                         </div>
                         <div className='flex gap-2 justify-center items-center'>
                           {data?.types?.map((type: any) => (
-                            <div className=' px-2 mt-1 bg-gray-50 rounded-2xl bg-opacity-20 '>
+                            <div
+                              key={type?.type?.name}
+                              className=' px-2 mt-1 bg-gray-50 rounded-2xl bg-opacity-20 '
+                            >
                               <p className='text-white font-normal '>
                                 {stringToTitleCase(type?.type?.name)}
                               </p>
@@ -103,10 +120,7 @@ export default function Modal({
                           }
                         >
                           {tabItems?.map((el) => (
-                            <Tab
-                              // onClick={() => setSelectedTab(el.value)}
-                              className={"border-0 focus:ring-0"}
-                            >
+                            <Tab className={"border-0 focus:ring-0"} key={el.value}>
                               {({ selected }) => (
                                 <div
                                   className={clsx(
@@ -123,7 +137,7 @@ export default function Modal({
                           ))}
                         </Tab.List>
                         <Tab.Panels className={"py-5   w-full"}>
-                          <Tab.Panel className={""}>
+                          <Tab.Panel>
                             <div className='w-full flex flex-col gap-4'>
                               <div className='grid grid-cols-3 w-full '>
                                 <p className='text-gray-600 col-span-1 font-medium'>
@@ -157,7 +171,7 @@ export default function Modal({
                                 </p>
                                 <p className='text-gray-900 flex gap-3 col-span-2 font-medium'>
                                   {data?.about?.ability?.map((el: any) => (
-                                    <span>{el?.ability?.name}</span>
+                                    <span key={el?.ability?.name}>{el?.ability?.name}</span>
                                   ))}
                                 </p>
                               </div>
@@ -166,9 +180,9 @@ export default function Modal({
                           <Tab.Panel>
                             <div className='w-full flex flex-col gap-2'>
                               {data?.stats?.map((el: any) => (
-                                <div className='grid grid-cols-3 w-full '>
+                                <div key={el?.stat?.name} className='grid grid-cols-3 w-full '>
                                   <p className='text-gray-600  col-span-1 font-medium'>
-                                    {stringToTitleCase(el.stat?.name)}
+                                    {stringToTitleCase(el?.stat?.name)}
                                   </p>
                                   <p className='text-gray-900 flex  col-span-2 font-medium'>
                                     <span>{el?.base_stat}</span>

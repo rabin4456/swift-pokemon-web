@@ -11,36 +11,38 @@ export const apiClient = axios.create({
   headers: { ...headers },
 });
 
-export const getPokemon = async () => {
+export const getPokemon = async (id: string) => {
   try {
-    const response = await apiClient.get(`/pokemon`);
-    const list = response.data.results;
+    const response = await apiClient.get(`/generation/${id}`);
+    const list = response?.data?.pokemon_species;
     const pokemons = list?.map(async (pokemon: any) => {
-      const res = await fetch(pokemon.url);
-      const pokemonInfo = await res.json();
+      try {
+        const res = await fetch(`${baseUrl}pokemon/${pokemon?.name}`);
+        const pokemonInfo = await res?.json();
+        const evolutionResponse: any =
+          parseInt(id) < 5 &&
+          (await fetch(`${baseUrl}evolution-chain/${pokemonInfo.id}`));
+        const evolutionInfo =
+          parseInt(id) < 5 && (await evolutionResponse?.json());
 
-      const evolutionResponse = await fetch(
-        `${baseUrl}evolution-chain/${pokemonInfo.id}`
-      );
-      const evolutionInfo = await evolutionResponse.json();
-
-      console.log(evolutionInfo, "==evolutionInfo==");
-      return {
-        id: pokemonInfo?.id,
-        name: pokemonInfo?.name,
-        // generation:pokemonInfo?.generation?.name,
-        types: pokemonInfo?.types,
-        image: pokemonInfo?.sprites?.other?.home?.front_default,
-        color: pokemonInfo?.game_indices[8],
-        stats: pokemonInfo?.stats,
-        about: {
-          type: pokemonInfo?.types,
-          height: pokemonInfo?.height,
-          weight: pokemonInfo?.weight,
-          ability: pokemonInfo?.abilities,
-        },
-        evolution: evolutionInfo?.chain?.evolves_to[0],
-      };
+        return {
+          id: pokemonInfo?.id,
+          name: pokemonInfo?.name,
+          types: pokemonInfo?.types,
+          image: pokemonInfo?.sprites?.other?.home?.front_default,
+          color: pokemonInfo?.game_indices[8],
+          stats: pokemonInfo?.stats,
+          about: {
+            type: pokemonInfo?.types,
+            height: pokemonInfo?.height,
+            weight: pokemonInfo?.weight,
+            ability: pokemonInfo?.abilities,
+          },
+          evolution: evolutionInfo?.chain?.evolves_to[0],
+        };
+      } catch (error) {
+        console.log(error, "====erorrr====");
+      }
     });
     return await Promise.all(pokemons);
   } catch (error: any) {

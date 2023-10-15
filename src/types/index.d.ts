@@ -1,20 +1,18 @@
-interface Cart {
-    brand: string;
-    category: string;
-    description: string;
-    discountPercentage: number;
-    id: number;
-    images: string[];
-    price: number;
-    quantity: number;
-    rating: number;
-    stock: number;
-    thumbnail: string;
-    title: string;
-  }
-  
-  interface ProductState {
-    cart: Cart[];
-    total: number;
-    discount: number;
-  }
+interface Team {
+  id: number;
+  name: string;
+  types: any[];
+  image: string;
+  stats: any[];
+  about: {
+    type: any[];
+    heigh: number;
+    weight: number;
+    ability: any[];
+  };
+  evolution: any;
+}
+
+interface TeamState {
+  teams: Team[];
+}
