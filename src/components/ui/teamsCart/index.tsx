@@ -28,14 +28,17 @@ const TeamCart = () => {
                 key={el.image}
                 className='flex justify-between items-center  px-4 py-2'
               >
-                <div>
-                  <img src={el.image} className='h-20 w-20' />
+                <div className="flex gap-4">
+                  <div>
+                    <img src={el.image} className='h-20 w-20' />
+                  </div>
+                  <div className='flex justify-center items-center'>
+                    <p className='font-bold text-gray-600'>
+                      {stringToTitleCase(el?.name)}
+                    </p>
+                  </div>
                 </div>
-                <div className='flex justify-center items-center'>
-                  <p className='font-bold text-gray-600'>
-                    {stringToTitleCase(el?.name)}
-                  </p>
-                </div>
+
                 <div>
                   <TrashIcon
                     className='h-6 w-10 text-red-600 cursor-pointer pl-4'

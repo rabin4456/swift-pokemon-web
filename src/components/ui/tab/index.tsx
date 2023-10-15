@@ -17,14 +17,14 @@ const Tabs = ({
         {data?.map((el) => (
           <Tab
             onClick={() => setSelectedTab(el.value)}
-            className={"border-0 focus:ring-0"}
+            className={"border-0 focus:ring-0  focus:ring-transparent"}
             key={el.value}
           >
             {({ selected }) => (
               <div
                 className={clsx(
                   selected
-                    ? "text-gray-700 border-b-2 px-4 bg-gray-100 border-blue-500 focus:ring-0"
+                    ? "text-gray-700 border-b-2 px-4 bg-gray-100 border-blue-500 "
                     : "text-gray-700",
                   "p-2 "
                 )}

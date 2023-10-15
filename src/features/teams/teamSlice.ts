@@ -12,18 +12,19 @@ export const TeamSlice = createSlice({
   reducers: {
     ADD_ITEM_TO_CART: (state, action: PayloadAction<Team>) => {
       const item = state.teams.find((el) => el.id === action.payload.id);
-      if (item) {
-        toast.warning("This Pokemon is already in cart.");
-        return;
-      }
       if (state?.teams?.length >= 6) {
         toast.warning("Only 6 pokemon can be added in team.");
+        return;
+      }
+      
+      if (item) {
+        toast.warning("This Pokemon is already in the team.");
         return;
       }
       state.teams.push({ ...action?.payload });
 
       localStorage.setItem("teams", JSON.stringify(state.teams));
-      toast.success("Pokemon added successfully.");
+      toast.success("Pokemon added to team successfully.");
     },
 
     ADD_PERSISITED_DATA: (state, action: PayloadAction<Team[]>) => {
